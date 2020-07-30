@@ -1,4 +1,4 @@
-package kr.or.connect.reservation.config;
+package kr.or.connect.reservationrestapi.config;
 
 import javax.sql.DataSource;
 

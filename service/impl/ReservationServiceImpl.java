@@ -1,4 +1,4 @@
-package kr.or.connect.reservation.service.impl;
+package kr.or.connect.reservationrestapi.service.impl;
 
 import java.util.List;
 
@@ -6,12 +6,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import kr.or.connect.reservation.dao.ReservationDao;
-import kr.or.connect.reservation.dto.DisplayInfo;
-import kr.or.connect.reservation.dto.FileInfo;
-import kr.or.connect.reservation.dto.Product;
-import kr.or.connect.reservation.dto.WholeServiceInfo;
-import kr.or.connect.reservation.service.ReservationService;
+import kr.or.connect.reservationrestapi.dao.ReservationDao;
+import kr.or.connect.reservationrestapi.dto.*;
+import kr.or.connect.reservationrestapi.service.ReservationService;
 
 @Service
 public class ReservationServiceImpl implements ReservationService {
@@ -29,6 +26,12 @@ public class ReservationServiceImpl implements ReservationService {
 	@Transactional
 	public List<WholeServiceInfo> getAllItems(Integer start) {
 		List<WholeServiceInfo> list = reservationDao.selectAllWholeServiceInfo(start,ReservationService.LIMIT);
+		return list;
+	}
+	@Override
+	@Transactional
+	public List<WholeServiceInfo> getItemDetail(Integer id) {
+		List<WholeServiceInfo> list = reservationDao.selectItemDetail(id);
 		return list;
 	}
 	@Override
@@ -53,5 +56,44 @@ public class ReservationServiceImpl implements ReservationService {
 		return list;
 	}
 	
+	@Override
+	@Transactional
+	public List<CommentLists> getCommentLists(Integer productId) {
+		List<CommentLists> list = reservationDao.selectComment(productId, ReservationService.COMMENTLIMIT);
+		return list;
+	}
+	
+	@Override
+	public List<CommentLists> getAllComment(Integer productId) {
+		List<CommentLists> list = reservationDao.selectAllComment(productId);
+		return list;
+	}
 
+	@Override
+	public double avgRate(Integer productId) {
+		return reservationDao.avgRate(productId);
+	}
+	@Override
+	public int getCountComment() {
+		return reservationDao.countComment();
+	}
+
+	@Override
+	@Transactional
+	public List<DisplayInfo> getLocation(Integer productId) {
+		List<DisplayInfo> list = reservationDao.selectLocation(productId);
+		return list;
+	}
+
+	@Override
+	public List<DisplayInfo> getId(Integer id) {
+		List<DisplayInfo> list = reservationDao.getId(id);
+		return list;
+	}
+
+	@Override
+	public List<FileInfo> getMapImg(Integer id) {
+		List<FileInfo> list = reservationDao.getMapImg(id);
+		return list;
+	}
 }
